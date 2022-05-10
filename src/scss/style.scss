@@ -20,53 +20,51 @@ body {
     position: relative;
     perspective: 1000px;
     animation: rotate-scene 60s linear infinite;
-}
 
-@keyframes rotate-scene {
-    from {
-        transform: rotateZ(0deg);
-    }
-    to {
-        transform: rotateZ(360deg);
-    }
-}
-
-$spread: 20px;
-$number: 10;
-$off: 0.5 * ($number - 1) * $spread;
-$speed: 5s;
-
-@for $i from 0 to $number {
-    @for $j from 0 to $number {
-        .star:nth-child(#{$number * $i + $j + 1}) {
-            $x: $i * $spread - $off;
-            $y: $j * $spread - $off;
-            --x: #{$x};
-            --y: #{$y};
-            --delay: #{ math.random() * $speed};
+    @keyframes rotate-scene {
+        from {
+            transform: rotateZ(0deg);
+        }
+        to {
+            transform: rotateZ(360deg);
         }
     }
 }
 
 .star {
+    $spread: 20px;
+    $number: 10;
+    $off: 0.5 * ($number - 1) * $spread;
+    $speed: 5s;
     position: absolute;
     opacity: 0;
     width: 300px;
     height: 1px;
-    background: linear-gradient(90deg,hsl(57, 72%, 73%),#fff0);
+    background: linear-gradient(90deg, hsl(57, 72%, 73%), #fff0);
     animation: animate-star #{$speed} var(--delay) infinite;
-}
 
-
-@keyframes animate-star {
-    0% {
-        opacity: 0;
-        transform: translateX(var(--x)) translateY(var(--y)) translateZ(0px)
-            rotateY(90deg);
+    @for $i from 0 to $number {
+        @for $j from 0 to $number {
+            &:nth-child(#{$number * $i + $j + 1}) {
+                $x: $i * $spread - $off;
+                $y: $j * $spread - $off;
+                --x: #{$x};
+                --y: #{$y};
+                --delay: #{math.random() * $speed};
+            }
+        }
     }
-    100% {
-        opacity: 1;
-        transform: translateX(var(--x)) translateY(var(--y)) translateZ(1400px)
-            rotateY(90deg);
+
+    @keyframes animate-star {
+        0% {
+            opacity: 0;
+            transform: translateX(var(--x)) translateY(var(--y))
+                translateZ(0px) rotateY(90deg);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(var(--x)) translateY(var(--y))
+                translateZ(1400px) rotateY(90deg);
+        }
     }
 }
